@@ -18,7 +18,7 @@ else {
 }
 
 // Disable OPcache or other internal caches that might be enabled.
-opcache_reset();
+// opcache_reset(); // I don't use apache of xampp, just windows and C:\tools\php72\php.exe -S localhost:8000
 
 // Specify our Twig templates location.
 $twigLoader = new FilesystemLoader('templates/');
@@ -26,4 +26,11 @@ $twigLoader = new FilesystemLoader('templates/');
 $_twig = new Environment($twigLoader, ['debug' => true, 'cache' => false, 'auto_reload' => true]);
 // Add extra extensions, global twig variables, etc.
 $_twig->addExtension(new DebugExtension());
-$_twig->addGlobal('site_url', $_SERVER["REQUEST_SCHEME"] . '://' . $_SERVER['SERVER_NAME'] . dirname($_SERVER["PHP_SELF"]));
+$req_scheme = isset($_SERVER["HTTPS"]) ? 'https://' : 'http://'; // $_SERVER["REQUEST_SCHEME"] is not reliable.
+if($_SERVER['SERVER_PORT'] != 80) {
+  $url = $req_scheme . $_SERVER['SERVER_NAME'] . ':' . $_SERVER['SERVER_PORT'] ;
+} else {
+  $url = $req_scheme . $_SERVER['SERVER_NAME'] ;
+}
+$_twig->addGlobal('site_url', $url );
+// $_twig->addGlobal('site_url', $_SERVER["REQUEST_SCHEME"] . '://' . $_SERVER['SERVER_NAME'] . dirname($_SERVER["PHP_SELF"]));

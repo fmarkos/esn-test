@@ -60,7 +60,8 @@ class RouterFetcher extends Router {
   private function getAnnotationFromMethod($str, $tag = '@route') {
 
     $matches = array();
-    preg_match('#' . $tag . '\(\"(.*?)\"\)\n#s', $str, $matches);
+    // preg_match('#' . $tag . '\(\"(.*?)\"\)\n#s', $str, $matches);
+    preg_match('/' . $tag . '\(\"(.*?)\"\)/', $str, $matches); // fixed
 
     if (isset($matches[1])) {
       return trim($matches[1]);
