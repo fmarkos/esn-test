@@ -41,11 +41,6 @@ class Articles extends AbstractView {
   public function show($slug) {
     // We call our test controller for the data we need later in twig.
     $testController = new TestController();
-
-    // And we render the data.
-    // echo "$slug";
-    // die;
-    // $slug = 'raldred1';
     $this->render('article.twig', [
       'article' => $testController->getArticle($slug),
       // 'num_articles' => $testController->countNews(),

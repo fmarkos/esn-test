@@ -72,7 +72,38 @@
    * Your solution does not require its use and you can delete it.
    */
   #}
-  {{ parent() }}
+  {# {{ parent() }} #}
+  <div id="accordion">
+    {% for item in data_t4 %}
+    <div class="card">
+      <div class="card-header" id="heading{{ loop.index }}">
+      <h5 class="mb-0">
+          <button class="btn btn-link font-weight-bold" data-toggle="collapse" data-target="#collapse{{ loop.index }}" aria-expanded="true" aria-controls="collapse{{ loop.index }}">
+            <img src="https://flagsapi.com/{{ item[0].cc }}/flat/32.png" alt="{{ item[0].country }}" width="32" height="32">
+            {# {{ item|json_encode() }} #}
+            {{ item[0].country }}
+            <span class="font-weight-bold">({{ item|length }} sections)</span>
+          </button>
+        </h5>
+      </div>
+      <div id="collapse{{ loop.index }}" class="collapse {% if loop.first %}show{% endif %}" aria-labelledby="heading{{ loop.index }}" data-parent="#accordion">
+        <div class="card-body">
+          {# {{ item.country }} #}
+          {% for part in item %}
+            {{ part.label }}
+            ({{ part.code }})
+            {% if part.website %}
+              <a href="{{ part.website }}">
+                <i class="fa fa-link" aria-hidden="true"></i>
+              </a>
+            {% endif %}
+            <br>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+</div>
 
 {% endblock %}
 

@@ -67,8 +67,48 @@ class TestController extends EsnFetcher {
    *   The data you decide to return.
    */
   public function getDataT4() {
+    $curl = curl_init('https://accounts.esn.org/api/v1/sections');
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, ['Accept: application/json', 'Content-Type: application/x-www-form-urlencoded']);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+    // Execute and get also the response code.
+    $resp = curl_exec($curl);
+    // Can be the url returns a 404.
+    $code = curl_getinfo($curl)['http_code'];
+    curl_close($curl);
 
-    return ;
+    if ($code === 404){
+      return json_encode([]);
+    }
+    $resp = json_decode($resp);
+
+    $filteredItems = array_map(function ($item) {
+      return [
+        'country' => $item->country,
+        'label' => $item->label,
+        'code' => $item->code,
+        'cc' => $item->cc,
+        'website' => $item->website,
+      ];
+    }, $resp);
+
+    $grouped = array_reduce($filteredItems, function ($carry, $item) {
+      $country = $item['country'];
+      if (!isset($carry[$country])) {
+        $carry[$country] = [];
+      }
+      $carry[$country][] = $item;
+      return $carry;
+    }, []);
+
+    foreach ($grouped as &$group) { // sort
+      usort($group, function ($a, $b) {
+        return strcmp($a['label'], $b['label']);
+      });
+    }
+    // echo json_encode($grouped);
+    // die;
+    return $grouped;
   }
 
   /**
