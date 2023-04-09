@@ -23,13 +23,13 @@ class Front extends AbstractView {
   public function index() {
     // We call our test controller for the data we need later in twig.
     $testController = new TestController();
-    
+
     // And we render the data.
     $this->render('blocks_front.twig', [
-      'data_t2' => $testController->getNews(),
+      'data_t2' => $testController->getNews2(),
       'data_t4' => $testController->getDataT4(),
       'data_t5' => $testController->getDataT5(),
-      'num_articles' => $testController->countNews(),
-    ]);    
+      'num_articles' => $testController->countNews2(),
+    ]);
   }
 }

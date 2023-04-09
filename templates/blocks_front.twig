@@ -40,18 +40,23 @@
    * Your solution does not require its use and you can delete it.
    */
   #}
-  {# {{ parent() }} #}
+  {{ parent() }}
   <div class="card-deck">
   {% for article in data_t2|slice(0, 3) %}
   <div class="card" style="width: 18rem;">
-    <img src="{{ article.images[random(0, 2)] }}" class="card-img-top" alt="{{ article.title }}">
+    {% if article.images|length > 0 %}
+      <img src="{{ article.images[1] }}" class="card-img-top" alt="{{ article.title }}">
+    {% else %}
+      <img src="https://via.placeholder.com/800x600/FFAAFF/FFFFFF?text=TestImage4" class="card-img-top" alt="{{ article.title }}">
+    {% endif %}
     <div class="card-body">
       <h5 class="card-title">{{ article.title }}</h5>
-      <p class="card-text">{{ article.text|length > 250 ? article.text|slice(0, 250) ~ '...' : article.text }}</p>
+      <p class="card-text">{{ article.text|length > 250 ? article.text|slice(0, 250)|raw : article.text|raw }}
+        {{ article.text|length > 250 ? '...' : ''}}</p>
       <a href="{{ site_url }}/article/{{ article.slug }}" class="btn btn-primary">Read More</a>
     </div>
     <div class="card-footer">
-      <small class="text-muted">{{ article.date|date('F j, Y') }}</small>
+      <small class="text-muted">{{ article.date }}</small>
     </div>
   </div>
   {% endfor %}

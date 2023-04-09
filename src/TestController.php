@@ -11,7 +11,8 @@ class TestController extends EsnFetcher {
   private $articles;
   public function __construct()
   {
-    $this->articles = json_decode(file_get_contents('src/Assets/news.json'));
+    parent::__construct();
+    $this->articles = $this->getNews();
   }
   /**
    * Returns the needed data for solving task 2.
@@ -21,7 +22,7 @@ class TestController extends EsnFetcher {
    * @return
    *   The data you decide to return.
    */
-  public function getNews() {
+  public function getNews2() {
     return $this->articles;
   }
 
@@ -33,7 +34,7 @@ class TestController extends EsnFetcher {
    * @return
    *   The data you decide to return.
    */
-  public function countNews() {
+  public function countNews2() {
     return count($this->articles);
   }
 

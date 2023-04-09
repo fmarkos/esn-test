@@ -12,22 +12,21 @@
 {% block content %}
   {% if article %}
     <h1 class="mt-3">{{ article.title }}</h1>
-
     <div class="container">
       <div class="row">
         <div class="col-md-8">
-          {# <h3>{{ article.title }}</h3> #}
-          <p>{{ article.text }}</p>
-          <p>City:{{ article.location }}</p>
-          <p>Date:{{ article.date }}</p>
+          <p>{{ article.text|raw }}</p>
+          {% if article.location %}
+            <p>City:{{ article.location }}</p>
+          {% endif %}
+          <p>Date: {{ article.date }}</p>
         </div>
         <div class="col-md-4">
-          <img src="{{ article.images[0]}}" alt="">
           <img src="{{ article.images[1]}}" alt="">
           <img src="{{ article.images[2]}}" alt="">
         </div>
       </div>
-      <div class="row justify-content-end">
+      <div class="row">
         <a class="btn btn-primary" href="{{ site_url }}/articles" role="button">Articles</a>
       </div>
     </div>
@@ -37,7 +36,7 @@
         <div class="task_header">404</div>
         <div class="task">Page not found.</div>
 
-        <div class="row justify-content-end">
+        <div class="row">
           <a class="btn btn-primary" href="{{ site_url }}/articles" role="button">Articles</a>
         </div>
 

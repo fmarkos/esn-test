@@ -59,6 +59,7 @@ class EsnApi implements EsnApiInterface {
     $curl = curl_init('https://story.esn.org/api_news.json');
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
     curl_setopt($curl, CURLOPT_HTTPHEADER, ['Accept: application/json', 'Content-Type: application/x-www-form-urlencoded']);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
     // Execute and get also the response code.
     $resp = curl_exec($curl);
     // Can be the url returns a 404.
@@ -81,7 +82,7 @@ class EsnApi implements EsnApiInterface {
     curl_setopt($curl, CURLOPT_HTTPHEADER, ['Accept: application/json', 'Content-Type: application/x-www-form-urlencoded']);
     // Execute and get also the response code.
     $resp = curl_exec($curl);
-    curl_close($curl);    
+    curl_close($curl);
 
     return $resp;
   }
