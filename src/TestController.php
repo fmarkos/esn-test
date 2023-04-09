@@ -19,7 +19,7 @@ class TestController extends EsnFetcher {
    * You might need extra functions for this test.
    *
    * @return
-   *   The complete article data set.
+   *   The data you decide to return.
    */
   public function getNews() {
     return $this->articles;
@@ -31,10 +31,30 @@ class TestController extends EsnFetcher {
    * You might need extra functions for this test.
    *
    * @return
-   *   The number of articles.
+   *   The data you decide to return.
    */
   public function countNews() {
-    return count($num_articles);
+    return count($this->articles);
+  }
+
+  /**
+   * Returns the needed data for solving task 3.
+   *
+   * You might need extra functions for this test.
+   *
+   * @return
+   *   The data you decide to return.
+   */
+  public function getArticle($slug) {
+    $column = array_column($this->articles, 'slug');
+    $index = array_search($slug, $column);
+    if ($index !== false) {
+      $item = $this->articles[$index];
+    } else {
+      call_user_func_array([$this, 'notFound'], ['articles/'. $slug]);
+      return;
+    }
+    return $item;
   }
 
   /**

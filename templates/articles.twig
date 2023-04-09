@@ -1,0 +1,23 @@
+{#
+/**
+ * @file
+ * Template for the frontpage.
+ *
+ * Available variables:
+ * - site_url: the base url of our page.
+ */
+#}
+{% extends 'base.twig' %}
+
+{% block content %}
+  <h1 class="mt-3">Articles</h1>
+
+  <div class="tasks_container">
+    <div class="list-group">
+      {% for item in articles %}
+        <a href="{{ site_url }}/article/{{ item.slug }}" class="list-group-item list-group-item-action">{{ item.title }}</a>
+      {% endfor %}
+    </div>
+
+  </div>
+{% endblock %}
