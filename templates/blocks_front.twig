@@ -116,5 +116,27 @@
    */
   #}
   {{ parent() }}
-
+  <div class="container">
+    <h2>Card data</h2>
+    {# <p>The .table-hover class enables a hover state (grey background on mouse over) on table rows:</p> #}
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Code</th>
+          <th>Section</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in data_t5 %}
+          <tr>
+            <td>{{ item.card_code }}</td>
+            {# <td>{{ item|json_encode() }}</td> #}
+            <td>{{ item.section_code}}</td>
+            <td>{{ item.card_status }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 {% endblock %}

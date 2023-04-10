@@ -3,6 +3,7 @@
 namespace EsnTest;
 
 use EsnTest\Controller\EsnFetcher;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 /**
  * Class for the exercise.
@@ -106,8 +107,6 @@ class TestController extends EsnFetcher {
         return strcmp($a['label'], $b['label']);
       });
     }
-    // echo json_encode($grouped);
-    // die;
     return $grouped;
   }
 
@@ -120,8 +119,18 @@ class TestController extends EsnFetcher {
    *   The data you decide to return.
    */
   public function getDataT5() {
-
-    return ;
+    $reader = IOFactory::createReader('Xlsx');
+    $reader->setReadDataOnly(true);
+    $spreadsheet = $reader->load('codes.xlsx');
+    $worksheet = $spreadsheet->getActiveSheet();
+    $data = $worksheet->toArray();
+    $data = array_map('current', $data);
+    array_shift($data);
+    $res = [];
+    foreach ($data as $key => $item) {
+      $tmpres = $this->getCardData($item);
+      $res[] = $tmpres ? $tmpres : ['card_code' => $item];
+    }
+    return $res;
   }
-
 }

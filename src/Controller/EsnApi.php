@@ -80,6 +80,7 @@ class EsnApi implements EsnApiInterface {
     $curl = curl_init('https://esncard.org/services/1.0/card.json?code=' . $card_number);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
     curl_setopt($curl, CURLOPT_HTTPHEADER, ['Accept: application/json', 'Content-Type: application/x-www-form-urlencoded']);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
     // Execute and get also the response code.
     $resp = curl_exec($curl);
     curl_close($curl);
